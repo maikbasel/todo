@@ -1,4 +1,4 @@
-package io.github.maikbasel.todo.internal;
+package io.github.maikbasel.todo;
 
 public class NotImplementedException extends RuntimeException {
 

@@ -1,6 +1,5 @@
 package io.github.maikbasel.todo;
 
-import io.github.maikbasel.todo.internal.NotImplementedException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

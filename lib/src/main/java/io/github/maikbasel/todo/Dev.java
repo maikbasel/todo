@@ -1,7 +1,5 @@
 package io.github.maikbasel.todo;
 
-import io.github.maikbasel.todo.internal.NotImplementedException;
-
 /**
  * The Dev class provides methods for marking a method as a placeholder for future implementation.
  * When called, the marked method will throw a {@link NotImplementedException}.

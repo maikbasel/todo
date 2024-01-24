@@ -1,6 +1,5 @@
 package io.github.maikbasel.todo;
 
-import io.github.maikbasel.todo.internal.NotImplementedException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
