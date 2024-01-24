@@ -5,5 +5,6 @@
  * It does not define any specific classes or interfaces within the module.
  */
 module io.github.maikbasel.todo {
+    requires org.aspectj.runtime;
     exports io.github.maikbasel.todo;
 }

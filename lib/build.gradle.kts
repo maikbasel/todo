@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    id("io.freefair.aspectj") version("6.3.0")
 }
 
 repositories {
@@ -7,6 +8,8 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.aspectjrt)
+
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.assertj.core)
 

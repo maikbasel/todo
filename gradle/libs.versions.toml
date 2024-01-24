@@ -1,7 +1,9 @@
 [versions]
 junit = "5.10.0"
 assertj = "3.25.1"
+aspectj = "1.9.21"
 
 [libraries]
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+aspectjrt = { module = "org.aspectj:aspectjrt", version.ref = "aspectj" }
