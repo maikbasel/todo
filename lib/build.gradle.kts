@@ -26,3 +26,9 @@ java {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
+
+tasks.register("javadocAspectj", Javadoc::class) {
+    description = "Generates JavaDoc documentation for the aspectj sources set."
+    group = "documentation"
+    source = sourceSets["aspectj"].allJava
+}
