@@ -1,6 +1,6 @@
 # TODO
 
-# Table of Contents
+## Table of Contents
 
 <!-- TOC -->
 * [About the Project](#about-the-project)
