@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        id: release
+        with:
+          release-type: java
+          token: ${{secrets.RELEASE_PLEASE_PAT}}
+
+      # The logic below handles the npm publication:
+      - uses: actions/checkout@v4
+        # these if statements ensure that a publication only occurs when
+        # a new release is created:
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+        if: ${{ steps.release.outputs.release_created }}
+
+      - run: ./gradlew clean publish --warn --stacktrace
+        env:
+          ORG_GRADLE_PROJECT_signingKey: ${{secrets.GPG_SIGNING_KEY}}
+          ORG_GRADLE_PROJECT_signingPassword: ${{secrets.GPG_SIGNING_PASSPHRASE}}
+          ORG_GRADLE_PROJECT_ossrhUsername: ${{secrets.OSSRH_USERNAME}}
+          ORG_GRADLE_PROJECT_ossrhPassword: ${{secrets.OSSRH_PASSWORD}}
+        if: ${{ steps.release.outputs.release_created }}
