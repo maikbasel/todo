@@ -5,4 +5,3 @@ plugins {
 
 rootProject.name = "todo"
 include("lib")
-include("example")
