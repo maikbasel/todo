@@ -1,10 +1,11 @@
 plugins {
     `java-library`
     `maven-publish`
-    `signing`
+    signing
     id("io.freefair.aspectj") version ("6.3.0")
 }
 
+group = "io.github.maikbasel"
 version = "0.1.0-SNAPSHOT"
 
 repositories {
