@@ -1,3 +1,6 @@
+
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
 plugins {
     `java-library`
     `maven-publish`
@@ -31,19 +34,12 @@ java {
     }
 }
 
-signing {
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    val extension = extensions
-        .getByName("publishing") as PublishingExtension
-    sign(extension.publications)
-}
 
 val isReleaseVersion by extra { version.toString().endsWith("SNAPSHOT").not() }
 
 object Meta {
-    const val DESC = "A Java adaptation of Rust's std::todo macro features using static factory methods, AspectJ's AOP, and annotations to mark unimplemented code sections."
+    const val DESC =
+        "A Java adaptation of Rust's std::todo macro features using static factory methods, AspectJ's AOP, and annotations to mark unimplemented code sections."
     const val LICENSE = "MIT"
     const val GITHUB_REPO = "maikbasel/todo"
     const val RELEASE_REPO = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -51,14 +47,12 @@ object Meta {
 }
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("mavenJava") {
             groupId = project.group.toString()
             artifactId = project.name
             version = project.version.toString()
 
             from(components["java"])
-            artifact(tasks["sourcesJar"])
-            artifact(tasks["javadocJar"])
 
             pom {
                 name.set(project.name)
@@ -109,6 +103,19 @@ publishing {
     }
 }
 
+signing {
+    val os: OperatingSystem = DefaultNativePlatform.getCurrentOperatingSystem()
+    if (os.isWindows) {
+        useGpgCmd()
+    } else {
+        val signingKeyId: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKeyId, signingPassword)
+    }
+
+    sign(publishing.publications["mavenJava"])
+}
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
@@ -117,4 +124,10 @@ tasks.register("javadocAspectj", Javadoc::class) {
     description = "Generates JavaDoc documentation for the aspectj sources set."
     group = "documentation"
     source = sourceSets["aspectj"].allJava
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
 }
